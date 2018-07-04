@@ -90,7 +90,7 @@ public class ModeloPeliculas {
                     + "P.duracion, P.anio, C.nombre AS categoria FROM peliculas P "
                     + "INNER JOIN categorias C ON C.id = P.categoria_id";
             if (!textoBusqueda.isEmpty()) {
-                consulta += " WHERE P.codigo LIKE '%" + textoBusqueda + "%' OR P.titulo LIKE '%" + textoBusqueda + "%' OR P.descripcion LIKE '%" + textoBusqueda + "%'";
+                consulta += " WHERE P.codigo LIKE '%" + textoBusqueda + "%' OR P.titulo LIKE '%" + textoBusqueda + "%' OR P.descripcion LIKE '%" + textoBusqueda + "%' OR C.nombre LIKE '%" + textoBusqueda + "%'";
             }
 //            System.out.println(consulta);
             ResultSet resultado = Conexion.getDatos(consulta);

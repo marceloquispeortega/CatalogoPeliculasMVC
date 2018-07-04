@@ -5,11 +5,10 @@
  */
 package bo.usfx.sis457.catalogopeliculasmvc.controladores;
 
-import bo.usfx.sis457.catalogopeliculasmvc.modelos.ModeloCategorias;
-import bo.usfx.sis457.catalogopeliculasmvc.modelos.ModeloPeliculas;
+import bo.usfx.sis457.catalogopeliculasmvc.modelos.ModeloUsuarios;
 import bo.usfx.sis457.catalogopeliculasmvc.utilitarios.ConexionMySQL;
-import bo.usfx.sis457.catalogopeliculasmvc.vistas.JPanelPeliculasListar;
-import bo.usfx.sis457.catalogopeliculasmvc.vistas.JPanelPeliculasFormulario;
+import bo.usfx.sis457.catalogopeliculasmvc.vistas.JPanelUsuariosFormulario;
+import bo.usfx.sis457.catalogopeliculasmvc.vistas.JPanelUsuariosListar;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -25,19 +24,17 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author marcelo
  */
-public class ControladorPeliculas implements ActionListener, KeyListener {
-    ModeloPeliculas Modelo;
-    ModeloCategorias modeloCategorias;
+public class ControladorUsuarios implements ActionListener, KeyListener {
+    ModeloUsuarios Modelo;
     
-    JPanelPeliculasListar VistaListar;
-    JPanelPeliculasFormulario VistaFormulario;
+    JPanelUsuariosListar VistaListar;
+    JPanelUsuariosFormulario VistaFormulario;
     JDialog Dialogo;
     
-    public ControladorPeliculas(JFrame jFramePrincipal, ConexionMySQL conexionMySQL) {
-        this.Modelo = new ModeloPeliculas(conexionMySQL);
-        this.modeloCategorias = new ModeloCategorias(conexionMySQL);
+    public ControladorUsuarios(JFrame jFramePrincipal, ConexionMySQL conexionMySQL) {
+        this.Modelo = new ModeloUsuarios(conexionMySQL);
         
-        this.VistaListar = new JPanelPeliculasListar();
+        this.VistaListar = new JPanelUsuariosListar();
         this.VistaListar.setSize(jFramePrincipal.getWidth(), jFramePrincipal.getHeight());
         this.VistaListar.getJButtonNuevo().addActionListener(this);
         this.VistaListar.getJButtonModificar().addActionListener(this);
@@ -47,7 +44,7 @@ public class ControladorPeliculas implements ActionListener, KeyListener {
         this.VistaListar.getJButtonBusqueda().addActionListener(this);
         this.VistaListar.getJButtonLimpiar().addActionListener(this);
         
-        this.VistaFormulario = new JPanelPeliculasFormulario();
+        this.VistaFormulario = new JPanelUsuariosFormulario();
         this.VistaFormulario.getJButtonGuardar().addActionListener(this);
         this.VistaFormulario.getJButtonCancelar().addActionListener(this);
         
@@ -62,56 +59,54 @@ public class ControladorPeliculas implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //Botón Nuevo pulsado desde el Panel de JPanelPeliculasListar
+        //Botón Nuevo pulsado desde el Panel de JPanelCategoriasListar
         if (e.getSource() == this.VistaListar.getJButtonNuevo()) {
-            VistaFormulario.getJComboBoxCategoriaId().setModel(new javax.swing.DefaultComboBoxModel<>(modeloCategorias.getLista()));
-            
             Dialogo.getContentPane().add(this.VistaFormulario);
-            Dialogo.setTitle("Nueva Película");
-            Dialogo.setSize(600, 310);
+            Dialogo.setTitle("Nuevo Usuario");
+            Dialogo.setSize(600, 320);
             centrarVentana(this.VistaListar, Dialogo);
             Dialogo.setResizable(false);
             Dialogo.setVisible(true);
         }
         
-        //Botón Modificar pulsado desde el Panel de JPanelPeliculasListar
+        //Botón Modificar pulsado desde el Panel de JPanelCategoriasListar
         if (e.getSource() == this.VistaListar.getJButtonModificar()) {
-            if (VistaListar.getJTablePeliculas().getSelectedRow() < 0) {
+            if (VistaListar.getJTableUsuarios().getSelectedRow() < 0) {
                 JOptionPane.showMessageDialog(VistaListar, "Debe seleccionar un registro");
             } else {
-                String[] pelicula = Modelo.getPelicula(
-                        Integer.parseInt(((DefaultTableModel)VistaListar.getJTablePeliculas().getModel())
-                                .getValueAt(VistaListar.getJTablePeliculas().getSelectedRow(), 0).toString()));
+                String[] usuario = Modelo.getUsuario(
+                        Integer.parseInt(((DefaultTableModel)VistaListar.getJTableUsuarios().getModel())
+                                .getValueAt(VistaListar.getJTableUsuarios().getSelectedRow(), 0).toString()));
 
-                VistaFormulario.getJComboBoxCategoriaId().setModel(new javax.swing.DefaultComboBoxModel<>(modeloCategorias.getLista()));
-                
-                VistaFormulario.getJTextFieldId().setText("" + pelicula[0]);
-                VistaFormulario.getJTextFieldCodigo().setText(pelicula[1]);
-                VistaFormulario.getJTextFieldTitulo().setText(pelicula[2]);
-                VistaFormulario.getJTextAreaDescripcion().setText(pelicula[3]);
-                VistaFormulario.getJTextFieldDuracion().setText(pelicula[4]);
-                VistaFormulario.getJTextFieldAnio().setText(pelicula[5]);
-                VistaFormulario.getJComboBoxCategoriaId().setSelectedItem(pelicula[6]);
+                VistaFormulario.getJTextFieldId().setText("" + usuario[0]);
+                VistaFormulario.getJTextFieldUsuario().setText(usuario[1]);
+                VistaFormulario.getJTextFieldNombre().setText(usuario[2]);
+                VistaFormulario.getJComboBoxRol().setSelectedItem(usuario[3]);
+                if (usuario[4].equals("S")) {
+                    VistaFormulario.getJCheckBoxHabilitado().setSelected(true);
+                } else {
+                    VistaFormulario.getJCheckBoxHabilitado().setSelected(false);
+                }
 
                 Dialogo.getContentPane().add(this.VistaFormulario);
-                Dialogo.setTitle("Modificar Película");
-                Dialogo.setSize(600, 310);
+                Dialogo.setTitle("Modificar Usuario");
+                Dialogo.setSize(600, 320);
                 centrarVentana(this.VistaListar, Dialogo);
                 Dialogo.setResizable(false);
                 Dialogo.setVisible(true);
             }
         }
         
-        //Botón Borrar pulsado desde el Panel de JPanelPeliculasListar
+        //Botón Borrar pulsado desde el Panel de JPanelCategoriasListar
         if (e.getSource() == this.VistaListar.getJButtonBorrar()) {
-            if (VistaListar.getJTablePeliculas().getSelectedRow() < 0) {
+            if (VistaListar.getJTableUsuarios().getSelectedRow() < 0) {
                 JOptionPane.showMessageDialog(VistaListar, "Debe seleccionar un registro");
             } else {
-                int dialogoResultado = JOptionPane.showConfirmDialog(VistaListar, "¿Esta segur@ de borrar el registro de Película?", "Pregunta", JOptionPane.YES_NO_OPTION);
+                int dialogoResultado = JOptionPane.showConfirmDialog(VistaListar, "¿Esta segur@ de borrar el registro de Usuario?", "Pregunta", JOptionPane.YES_NO_OPTION);
                 if (dialogoResultado == JOptionPane.YES_OPTION) {
                     int id = Integer.parseInt(
-                            ((DefaultTableModel)VistaListar.getJTablePeliculas().getModel())
-                                    .getValueAt(VistaListar.getJTablePeliculas().getSelectedRow(), 0).toString());
+                            ((DefaultTableModel)VistaListar.getJTableUsuarios().getModel())
+                                    .getValueAt(VistaListar.getJTableUsuarios().getSelectedRow(), 0).toString());
                     if (Modelo.borrar(id)) {
                         
                     } else {
@@ -122,45 +117,43 @@ public class ControladorPeliculas implements ActionListener, KeyListener {
             }
         }
         
-        //Botón Actualizar pulsado desde el Panel de JPanelPeliculasListar
+        //Botón Actualizar pulsado desde el Panel de JPanelCategoriasListar
         if (e.getSource() == this.VistaListar.getJButtonActualizar()) {
             cargarDatos(VistaListar.getJTextFieldBusqueda().getText());
         }
         
-        //Botón Buscar pulsado desde el Panel de JPanelPeliculasListar
+        //Botón Buscar pulsado desde el Panel de JPanelCategoriasListar
         if (e.getSource() == this.VistaListar.getJButtonBusqueda()) {
             cargarDatos(VistaListar.getJTextFieldBusqueda().getText());
         }
         
-        //Botón Limpiar pulsado desde el Panel de JPanelPeliculasListar
+        //Botón Limpiar pulsado desde el Panel de JPanelCategoriasListar
         if (e.getSource() == this.VistaListar.getJButtonLimpiar()) {
             VistaListar.getJTextFieldBusqueda().setText("");
             cargarDatos("");
         }
         
-        //Botón Guardar pulsado desde el Panel de JPanelPeliculasFormulario
+        //Botón Guardar pulsado desde el Panel de JPanelCategoriasFormulario
         if (e.getSource() == this.VistaFormulario.getJButtonGuardar()) {
-            String[] categoria = modeloCategorias.getCategoria(this.VistaFormulario.getJComboBoxCategoriaId().getSelectedItem().toString());
             if (
                 Modelo.guardar(
                     Integer.parseInt(this.VistaFormulario.getJTextFieldId().getText()),
-                    this.VistaFormulario.getJTextFieldCodigo().getText(), 
-                    this.VistaFormulario.getJTextFieldTitulo().getText(), 
-                    this.VistaFormulario.getJTextAreaDescripcion().getText(),
-                    this.VistaFormulario.getJTextFieldDuracion().getText(),
-                    Integer.parseInt(this.VistaFormulario.getJTextFieldAnio().getText()),
-                    Integer.parseInt(categoria[0])
+                    this.VistaFormulario.getJTextFieldUsuario().getText(), 
+                    this.VistaFormulario.getJPasswordFieldContrasenia().getText(),
+                    this.VistaFormulario.getJTextFieldNombre().getText(), 
+                    this.VistaFormulario.getJComboBoxRol().getSelectedItem().toString(),
+                    this.VistaFormulario.getJCheckBoxHabilitado().isSelected()?"S":"N"
                 )
             ) {
                 Dialogo.setVisible(false);
                 limpiarFormulario();
                 cargarDatos("");
             } else {
-                JOptionPane.showMessageDialog(Dialogo, "No se pudo guardar la Película", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Dialogo, "No se pudo guardar la Categoría", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         
-        //Botón Cancelar pulsado desde el Panel de JPanelPeliculasFormulario
+        //Botón Cancelar pulsado desde el Panel de JPanelCategoriasFormulario
         if (e.getSource() == this.VistaFormulario.getJButtonCancelar()) {
             Dialogo.setVisible(false);
             limpiarFormulario();
@@ -186,16 +179,18 @@ public class ControladorPeliculas implements ActionListener, KeyListener {
     public void cargarDatos(String textoBusqueda) {
         this.VistaListar.setDatos(this.Modelo.getLista(textoBusqueda), this.Modelo.getTotal());
         //Ocultamos la columna del Id para que no se vea
-        this.VistaListar.getJTablePeliculas().getColumnModel().getColumn(0).setWidth(0);
-        this.VistaListar.getJTablePeliculas().getColumnModel().getColumn(0).setMinWidth(0);
-        this.VistaListar.getJTablePeliculas().getColumnModel().getColumn(0).setMaxWidth(0); 
+        this.VistaListar.getJTableUsuarios().getColumnModel().getColumn(0).setWidth(0);
+        this.VistaListar.getJTableUsuarios().getColumnModel().getColumn(0).setMinWidth(0);
+        this.VistaListar.getJTableUsuarios().getColumnModel().getColumn(0).setMaxWidth(0); 
     }
     
     public void limpiarFormulario() {
         this.VistaFormulario.getJTextFieldId().setText("0");
-        this.VistaFormulario.getJTextFieldCodigo().setText("");
-        this.VistaFormulario.getJTextFieldTitulo().setText(""); 
-        this.VistaFormulario.getJTextAreaDescripcion().setText("");
+        this.VistaFormulario.getJTextFieldUsuario().setText("");
+        this.VistaFormulario.getJPasswordFieldContrasenia().setText("");
+        this.VistaFormulario.getJTextFieldNombre().setText(""); 
+        this.VistaFormulario.getJComboBoxRol().setSelectedIndex(0);
+        this.VistaFormulario.getJCheckBoxHabilitado().setSelected(true);
     }
     
     public void centrarVentana(Component jFrame, Component dialogo) {

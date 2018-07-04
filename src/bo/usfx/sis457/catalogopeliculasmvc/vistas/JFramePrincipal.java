@@ -28,10 +28,12 @@ public class JFramePrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuSistema = new javax.swing.JMenu();
         jMenuItemCategorias = new javax.swing.JMenuItem();
         jMenuItemPeliculas = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jSeparador1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItemUsuarios = new javax.swing.JMenuItem();
+        jSeparador2 = new javax.swing.JPopupMenu.Separator();
         jMenuItemSalir = new javax.swing.JMenuItem();
         jMenuAyuda = new javax.swing.JMenu();
         jMenuItemAcercaDe = new javax.swing.JMenuItem();
@@ -41,22 +43,27 @@ public class JFramePrincipal extends javax.swing.JFrame {
         setName(""); // NOI18N
         setResizable(false);
 
-        jMenu1.setText("Sistema");
+        jMenuSistema.setText("Sistema");
 
         jMenuItemCategorias.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemCategorias.setText("Categorías");
-        jMenu1.add(jMenuItemCategorias);
+        jMenuSistema.add(jMenuItemCategorias);
 
         jMenuItemPeliculas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemPeliculas.setText("Películas");
-        jMenu1.add(jMenuItemPeliculas);
-        jMenu1.add(jSeparator1);
+        jMenuSistema.add(jMenuItemPeliculas);
+        jMenuSistema.add(jSeparador1);
+
+        jMenuItemUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemUsuarios.setText("Usuarios");
+        jMenuSistema.add(jMenuItemUsuarios);
+        jMenuSistema.add(jSeparador2);
 
         jMenuItemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemSalir.setText("Salir");
-        jMenu1.add(jMenuItemSalir);
+        jMenuSistema.add(jMenuItemSalir);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jMenuSistema);
 
         jMenuAyuda.setText("Ayuda");
 
@@ -117,14 +124,16 @@ public class JFramePrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenuAyuda;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemAcercaDe;
     private javax.swing.JMenuItem jMenuItemCategorias;
     private javax.swing.JMenuItem jMenuItemPeliculas;
     private javax.swing.JMenuItem jMenuItemSalir;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenuItem jMenuItemUsuarios;
+    private javax.swing.JMenu jMenuSistema;
+    private javax.swing.JPopupMenu.Separator jSeparador1;
+    private javax.swing.JPopupMenu.Separator jSeparador2;
     // End of variables declaration//GEN-END:variables
 
     public javax.swing.JMenuItem getJMenuItemCategorias () {
@@ -132,6 +141,12 @@ public class JFramePrincipal extends javax.swing.JFrame {
     }
     public javax.swing.JMenuItem getJMenuItemPeliculas () {
         return jMenuItemPeliculas;
+    }
+    public javax.swing.JSeparator getJSeparador1 () {
+        return jSeparador1;
+    }
+    public javax.swing.JMenuItem getJMenuItemUsuarios () {
+        return jMenuItemUsuarios;
     }
     public javax.swing.JMenuItem getJMenuItemSalir () {
         return jMenuItemSalir;
