@@ -11,6 +11,7 @@ import bo.usfx.sis457.catalogopeliculasmvc.vistas.JPanelUsuariosFormulario;
 import bo.usfx.sis457.catalogopeliculasmvc.vistas.JPanelUsuariosListar;
 import java.awt.Component;
 import java.awt.Dimension;
+import static java.awt.Toolkit.getDefaultToolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -44,9 +45,13 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
         this.VistaListar.getJButtonBusqueda().addActionListener(this);
         this.VistaListar.getJButtonLimpiar().addActionListener(this);
         
+        
+        
         this.VistaFormulario = new JPanelUsuariosFormulario();
         this.VistaFormulario.getJButtonGuardar().addActionListener(this);
         this.VistaFormulario.getJButtonCancelar().addActionListener(this);
+        
+        this.VistaFormulario.getJTextFieldNombre().addKeyListener(this);
         
         this.Dialogo = new JDialog(jFramePrincipal, true);
         
@@ -163,6 +168,14 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        char c = e.getKeyChar();
+
+        if (e.getSource() == this.VistaFormulario.getJTextFieldNombre()) {
+            if (Character.isDigit(c)) {
+                getDefaultToolkit().beep();
+                e.consume();
+            }
+        }
     }
 
     @Override

@@ -40,7 +40,7 @@ public class ConexionMySQL {
     /**
      * Contraseña de MySql
      */
-    private String Contrasenia = "t3JPnGzsDW4Owbzs";
+    private String Contrasenia = "8eK2Rx2FTT2rZVoR";
     /**
      * Cadena de conexion
      */
